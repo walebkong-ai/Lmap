@@ -30,7 +30,10 @@ export default function VideoOverlay({ stop, onClose }: VideoOverlayProps) {
             <h2 className="text-2xl sm:text-3xl font-black text-laurier-purple tracking-tight">
               {stop.name}
             </h2>
-            <p className="text-sm font-semibold text-laurier-gold uppercase tracking-wider mt-1">
+            <p className="text-sm font-bold text-slate-700 mt-1">
+              {stop.building}
+            </p>
+            <p className="text-xs font-semibold text-laurier-gold uppercase tracking-wider mt-0.5">
               {stop.location}
             </p>
           </div>

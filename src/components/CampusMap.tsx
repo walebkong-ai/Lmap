@@ -12,14 +12,19 @@ const createCustomIcon = (stop: TourStop, isHovered: boolean = false) => {
   return L.divIcon({
     className: 'custom-marker-container',
     html: `
-      <div 
-        class="tour-marker w-6 h-6 rounded-full border-[3px] shadow-lg transition-all duration-300 flex items-center justify-center
-        ${isHovered 
-          ? 'scale-125 border-laurier-gold bg-laurier-purple z-[1000]' 
-          : 'scale-100 border-white bg-laurier-purple'}"
-        data-stop-id="${stop.id}"
-      >
-        <div class="w-2 h-2 rounded-full bg-laurier-gold pointer-events-none"></div>
+      <div class="flex flex-col items-center justify-start overflow-visible w-[150px] -ml-[63px]">
+        <div 
+          class="tour-marker w-6 h-6 shrink-0 rounded-full border-[3px] shadow-lg transition-all duration-300 flex items-center justify-center relative
+          ${isHovered 
+            ? 'scale-125 border-laurier-gold bg-laurier-purple z-[1000]' 
+            : 'scale-100 border-white bg-laurier-purple'}"
+          data-stop-id="${stop.id}"
+        >
+          <div class="w-2 h-2 rounded-full bg-laurier-gold pointer-events-none"></div>
+        </div>
+        <div class="mt-1 text-[10px] font-bold text-laurier-purple-dark bg-white/95 px-1.5 py-0.5 rounded shadow-sm backdrop-blur-md pointer-events-none whitespace-normal text-center leading-tight border border-gray-100/50 transition-all ${isHovered ? 'z-[1001] opacity-100 font-black' : 'opacity-80'}">
+          ${stop.building}
+        </div>
       </div>
     `,
     iconSize: [24, 24],
@@ -83,7 +88,8 @@ export default function CampusMap({ onStopSelect, hoveredStopId }: CampusMapProp
             <Tooltip direction="top" offset={[0, -14]} opacity={1} className="custom-tooltip">
               <div className="text-center font-sans tracking-tight">
                 <h3 className="font-bold text-laurier-purple text-base leading-tight">{stop.name}</h3>
-                <p className="text-xs text-slate-500 font-medium">{stop.location}</p>
+                <p className="text-xs text-slate-700 font-semibold">{stop.building}</p>
+                <p className="text-[10px] text-slate-500 font-medium uppercase mt-0.5">{stop.location}</p>
               </div>
             </Tooltip>
           </Marker>
