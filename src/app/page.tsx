@@ -1,65 +1,97 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import MapWrapper from '@/components/MapWrapper';
+import Midas from '@/components/Midas';
+import VideoOverlay from '@/components/VideoOverlay';
+import { tourStops, TourStop } from '@/data/tourStops';
+import { Search, Map } from 'lucide-react';
 
 export default function Home() {
+  const [selectedStop, setSelectedStop] = useState<TourStop | null>(null);
+  const [hoveredStopId, setHoveredStopId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleStopSelect = (stopOrId: string | TourStop) => {
+    if (typeof stopOrId === 'string') {
+      const stop = tourStops.find(s => s.id === stopOrId);
+      if (stop) setSelectedStop(stop);
+    } else {
+      setSelectedStop(stopOrId);
+    }
+  };
+
+  const filteredStops = searchQuery.trim() === '' 
+    ? [] 
+    : tourStops.filter(s => s.name.toLowerCase().includes(searchQuery.toLowerCase()));
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <main className="relative w-full h-screen overflow-hidden bg-gray-50">
+      <MapWrapper 
+        onStopSelect={handleStopSelect} 
+        hoveredStopId={hoveredStopId} 
+      />
+
+      {/* Brand Header / Search Panel (Google Maps style overlay) */}
+      <div className="absolute top-6 left-6 z-40 bg-white rounded-2xl shadow-xl border border-gray-100 flex flex-col pointer-events-auto">
+        <div className="p-4 sm:p-5 w-72 sm:w-80">
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="text-xl sm:text-2xl font-black text-laurier-purple tracking-tight leading-none">
+                Wilfrid Laurier<br/>University
+              </h1>
+              <p className="text-xs font-bold text-laurier-gold uppercase tracking-wider mt-2">
+                Waterloo Campus Tour
+              </p>
+            </div>
+            <div className="w-10 h-10 bg-laurier-purple/10 rounded-full flex items-center justify-center">
+              <Map className="text-laurier-purple" size={20} />
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg p-2 mt-4 focus-within:ring-2 focus-within:ring-laurier-purple/20 transition-all">
+            <Search size={18} className="text-gray-400" />
+            <input 
+              type="text" 
+              placeholder="Search campus locations..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="bg-transparent border-none outline-none text-sm w-full font-medium" 
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
         </div>
-      </main>
-    </div>
+
+        {/* Search Results Dropdown */}
+        {filteredStops.length > 0 && (
+          <div className="border-t border-gray-100 max-h-64 overflow-y-auto">
+            {filteredStops.map(stop => (
+              <button
+                key={stop.id}
+                onMouseEnter={() => setHoveredStopId(stop.id)}
+                onMouseLeave={() => setHoveredStopId(null)}
+                onClick={() => {
+                  handleStopSelect(stop);
+                  setSearchQuery('');
+                  setHoveredStopId(null);
+                }}
+                className="w-full text-left px-5 py-3 hover:bg-gray-50 border-b border-gray-50 last:border-b-0 transition-colors"
+              >
+                <div className="font-bold text-sm text-laurier-purple">{stop.name}</div>
+                <div className="text-xs text-gray-500 font-medium">{stop.location}</div>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <Midas onDropOnStop={handleStopSelect} />
+
+      {selectedStop && (
+        <VideoOverlay 
+          stop={selectedStop} 
+          onClose={() => setSelectedStop(null)} 
+        />
+      )}
+    </main>
   );
 }
