@@ -14,7 +14,7 @@ export const tourStops: TourStop[] = [
     name: "Welcome Centre",
     location: "Main Entrance",
     building: "Welcome Centre",
-    coordinates: [43.4751, -80.5293],
+    coordinates: [43.47366, -80.53057],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -22,7 +22,7 @@ export const tourStops: TourStop[] = [
     name: "Arts Atrium",
     location: "Arts Building",
     building: "Dr. Alvin Woods Building (DAWB) / Arts",
-    coordinates: [43.4735, -80.5285],
+    coordinates: [43.47336, -80.53028],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -30,7 +30,7 @@ export const tourStops: TourStop[] = [
     name: "Library",
     location: "Outside",
     building: "Laurier Library",
-    coordinates: [43.4740, -80.5273],
+    coordinates: [43.47298, -80.52972],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -38,7 +38,7 @@ export const tourStops: TourStop[] = [
     name: "Concourse",
     location: "Central Hub",
     building: "Fred Nichols Campus Centre",
-    coordinates: [43.4738, -80.5280],
+    coordinates: [43.47352, -80.52921],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -46,7 +46,7 @@ export const tourStops: TourStop[] = [
     name: "Fred Nichols Campus Centre",
     location: "Outside of Wilf's",
     building: "Fred Nichols Campus Centre",
-    coordinates: [43.4742, -80.5288],
+    coordinates: [43.47362, -80.52876],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -54,7 +54,7 @@ export const tourStops: TourStop[] = [
     name: "Food Court",
     location: "Dining Area",
     building: "Fred Nichols Campus Centre",
-    coordinates: [43.4745, -80.5286],
+    coordinates: [43.47341, -80.52861],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -62,7 +62,7 @@ export const tourStops: TourStop[] = [
     name: "Little House Underpass",
     location: "Pathway",
     building: "Little House",
-    coordinates: [43.4755, -80.5268],
+    coordinates: [43.47312, -80.52780],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -70,7 +70,7 @@ export const tourStops: TourStop[] = [
     name: "Bricker Academic",
     location: "In Lecture Hall",
     building: "Bricker Academic Building",
-    coordinates: [43.4720, -80.5270],
+    coordinates: [43.47263, -80.52664],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -78,7 +78,7 @@ export const tourStops: TourStop[] = [
     name: "Science Atrium",
     location: "Science Building",
     building: "Science Building",
-    coordinates: [43.4730, -80.5255],
+    coordinates: [43.47367, -80.52508],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -86,7 +86,7 @@ export const tourStops: TourStop[] = [
     name: "Outside of Science Building",
     location: "Across from Co-op/Career Centre",
     building: "Science Building",
-    coordinates: [43.4728, -80.5260],
+    coordinates: [43.47322, -80.52552],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -94,7 +94,7 @@ export const tourStops: TourStop[] = [
     name: "Athletic Complex",
     location: "Gym & Recreation",
     building: "Athletic Complex",
-    coordinates: [43.4758, -80.5250],
+    coordinates: [43.47523, -80.52553],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -102,7 +102,7 @@ export const tourStops: TourStop[] = [
     name: "Theatre Atrium",
     location: "Arts & Theatre",
     building: "John Aird Centre",
-    coordinates: [43.4748, -80.5298],
+    coordinates: [43.47447, -80.52795],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -110,7 +110,7 @@ export const tourStops: TourStop[] = [
     name: "Dining Hall",
     location: "Residence Dining",
     building: "Dining Hall",
-    coordinates: [43.4760, -80.5265],
+    coordinates: [43.47427, -80.52868],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -118,7 +118,7 @@ export const tourStops: TourStop[] = [
     name: "Wellness Centre",
     location: "Student Health",
     building: "Student Wellness Centre",
-    coordinates: [43.4762, -80.5280],
+    coordinates: [43.47394, -80.52865],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -126,7 +126,7 @@ export const tourStops: TourStop[] = [
     name: "Lazaridis Atrium",
     location: "Lazaridis Hall",
     building: "Lazaridis Hall",
-    coordinates: [43.4750, -80.5310],
+    coordinates: [43.47510, -80.52945],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -134,7 +134,7 @@ export const tourStops: TourStop[] = [
     name: "Laurier International",
     location: "Global Engagement",
     building: "Laurier International",
-    coordinates: [43.4746, -80.5275],
+    coordinates: [43.47370, -80.52993],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -142,7 +142,7 @@ export const tourStops: TourStop[] = [
     name: "Stay Golden Mural",
     location: "Outside Welcome Centre",
     building: "Welcome Centre",
-    coordinates: [43.4752, -80.5294],
+    coordinates: [43.47379, -80.53031],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   }
 ];

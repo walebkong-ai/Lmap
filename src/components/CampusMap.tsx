@@ -1,10 +1,10 @@
 'use client';
 
-import { MapContainer, TileLayer, Marker, Tooltip, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Tooltip, useMap, useMapEvents, Polyline, CircleMarker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { tourStops, TourStop } from '@/data/tourStops';
 import L from 'leaflet';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // Required for Next.js to properly load Leaflet's default icons if we ever fallback,
 // but we'll use custom divIcons explicitly for full visual control.
@@ -56,12 +56,103 @@ const MapController = ({ hoveredStopId }: { hoveredStopId: string | null }) => {
   return null;
 };
 
+// Route Builder click listener
+const RouteBuilderController = ({
+  isRouteMode,
+  onAddPoint,
+}: {
+  isRouteMode: boolean;
+  onAddPoint: (pt: [number, number]) => void;
+}) => {
+  useMapEvents({
+    click(e) {
+      if (isRouteMode) {
+        onAddPoint([e.latlng.lat, e.latlng.lng]);
+      }
+    },
+  });
+  return null;
+};
+
 export default function CampusMap({ onStopSelect, hoveredStopId }: CampusMapProps) {
   // Center of Wilfrid Laurier Waterloo Campus (approx Arts Building)
   const rootPosition: [number, number] = [43.4740, -80.5280];
 
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [stopsLayout, setStopsLayout] = useState(tourStops);
+
+  const [isRouteMode, setIsRouteMode] = useState(false);
+  const [routePoints, setRoutePoints] = useState<[number, number][]>([]);
+
   return (
     <div className="w-full h-screen absolute inset-0 z-0 select-none">
+      <div className="absolute top-4 right-4 z-[1000] flex flex-col gap-2">
+        <button 
+          onClick={() => setIsEditMode(!isEditMode)}
+          className="bg-white border-2 border-laurier-purple px-4 py-2 rounded-lg shadow-lg font-bold text-sm text-laurier-purple hover:bg-gray-50 transition-colors"
+        >
+          {isEditMode ? 'Finish Editing' : 'Edit Pins'}
+        </button>
+        
+        {isEditMode && (
+          <button 
+            onClick={() => {
+              // Generate code for tourStops.ts so it's easy to paste
+              const outputLines = stopsLayout.map(s => {
+                const escapeQuotes = (str: string) => str.replace(/"/g, '\\"');
+                return `  {
+    id: "${s.id}",
+    name: "${escapeQuotes(s.name)}",
+    location: "${escapeQuotes(s.location)}",
+    building: "${escapeQuotes(s.building)}",
+    coordinates: [${s.coordinates[0].toFixed(5)}, ${s.coordinates[1].toFixed(5)}],
+    videoUrl: "${s.videoUrl}",
+  }`;
+              });
+              const output = `export const tourStops: TourStop[] = [\n${outputLines.join(',\n')}\n];`;
+              
+              navigator.clipboard.writeText(output);
+              alert('Copied new array to clipboard! Paste it into src/data/tourStops.ts to save permanently.');
+            }}
+            className="bg-laurier-gold border-2 border-laurier-gold px-4 py-2 rounded-lg shadow-lg font-bold text-sm text-laurier-purple-dark hover:brightness-105 transition-all text-center"
+          >
+            📋 Copy Array
+          </button>
+        )}
+
+        {/* Route Builder */}
+        <button 
+          onClick={() => {
+            setIsRouteMode(!isRouteMode);
+            setIsEditMode(false); // disable pins mode if enabled
+          }}
+          className="bg-white border-2 border-laurier-purple px-4 py-2 rounded-lg shadow-lg font-bold text-sm text-laurier-purple hover:bg-gray-50 transition-colors mt-2"
+        >
+          {isRouteMode ? 'Finish Route' : 'Create Route'}
+        </button>
+
+        {isRouteMode && routePoints.length > 0 && (
+          <>
+            <button 
+              onClick={() => setRoutePoints(prev => prev.slice(0, -1))}
+              className="bg-white border-2 border-gray-400 px-4 py-2 rounded-lg shadow-lg font-bold text-sm text-gray-700 hover:bg-gray-50 transition-all text-center"
+            >
+              ↩ Undo Point
+            </button>
+            <button 
+              onClick={() => {
+                const arr = routePoints.map(p => `[${p[0].toFixed(5)}, ${p[1].toFixed(5)}]`).join(', ');
+                navigator.clipboard.writeText(`[${arr}]`);
+                alert('Copied route array to clipboard!');
+              }}
+              className="bg-laurier-gold border-2 border-laurier-gold px-4 py-2 rounded-lg shadow-lg font-bold text-sm text-laurier-purple-dark hover:brightness-105 transition-all text-center"
+            >
+              📋 Copy Route Array
+            </button>
+          </>
+        )}
+      </div>
+
       <MapContainer 
         center={rootPosition} 
         zoom={16.5} 
@@ -75,14 +166,49 @@ export default function CampusMap({ onStopSelect, hoveredStopId }: CampusMapProp
         />
         
         <MapController hoveredStopId={hoveredStopId} />
+        <RouteBuilderController 
+          isRouteMode={isRouteMode} 
+          onAddPoint={(pt) => setRoutePoints(prev => [...prev, pt])} 
+        />
         
-        {tourStops.map((stop) => (
+        {routePoints.length > 1 && (
+          <Polyline 
+            positions={routePoints} 
+            color="#F5BE41" // laurier-gold
+            weight={4} 
+            dashArray="10, 10" 
+          />
+        )}
+        
+        {routePoints.map((pt, i) => (
+          <CircleMarker 
+            key={i} 
+            center={pt} 
+            radius={5} 
+            pathOptions={{ color: '#F5BE41', fillColor: '#330072', fillOpacity: 1, weight: 2 }} 
+          />
+        ))}
+
+        {stopsLayout.map((stop) => (
           <Marker 
             key={stop.id} 
             position={stop.coordinates} 
             icon={createCustomIcon(stop, hoveredStopId === stop.id)}
+            draggable={isEditMode}
             eventHandlers={{
-              click: () => onStopSelect(stop),
+              click: () => !isEditMode && onStopSelect(stop),
+              dragend: (e) => {
+                const marker = e.target;
+                const position = marker.getLatLng();
+                const lat = position.lat;
+                const lng = position.lng;
+                
+                setStopsLayout(prev => prev.map(s => 
+                  s.id === stop.id 
+                    ? { ...s, coordinates: [lat, lng] as [number, number] }
+                    : s
+                ));
+              }
             }}
           >
             <Tooltip direction="top" offset={[0, -14]} opacity={1} className="custom-tooltip">
