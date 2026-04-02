@@ -98,8 +98,8 @@ export const tourStops: TourStop[] = [
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
-    id: "theatre-atrium",
-    name: "Theatre Atrium",
+    id: "theatre-auditorium",
+    name: "Theatre Auditorium",
     location: "Arts & Theatre",
     building: "John Aird Centre",
     coordinates: [43.47447, -80.52795],
