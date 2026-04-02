@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, useDragControls, PanInfo } from 'framer-motion';
+import Image from 'next/image';
 
 interface MidasProps {
   onDropOnStop: (stopId: string) => void;
@@ -43,12 +44,14 @@ export default function Midas({ onDropOnStop }: MidasProps) {
           onDragEnd={handleDragEnd}
           whileDrag={{ scale: 1.15, cursor: 'grabbing', zIndex: 1000 }}
           whileHover={{ scale: 1.05 }}
-          className="w-12 h-12 bg-laurier-gold rounded-full border-4 border-laurier-purple shadow-lg cursor-grab active:cursor-grabbing flex items-center justify-center relative z-50 touch-none"
+          className="w-14 h-14 bg-white rounded-full border-2 border-laurier-purple shadow-lg cursor-grab active:cursor-grabbing flex items-center justify-center relative z-50 touch-none overflow-hidden"
         >
-          {/* A sophisticated stylized 'M' or Hawk abstraction since we don't have the exact asset */}
-          <span className="font-black text-laurier-purple text-lg tracking-tighter select-none pointer-events-none">
-            M
-          </span>
+          <Image
+            src="/midas.png"
+            alt="Midas Golden Hawk"
+            fill
+            className="object-contain p-1 pointer-events-none select-none drop-shadow-sm"
+          />
         </motion.div>
       </div>
     </div>
