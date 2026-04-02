@@ -156,11 +156,14 @@ export default function CampusMap({ onStopSelect, hoveredStopId }: CampusMapProp
       <MapContainer 
         center={rootPosition} 
         zoom={16.5} 
+        maxZoom={22}
         zoomControl={false} // We can add a custom zoom control if needed, but keeping it clean
         className="w-full h-full cursor-grab active:cursor-grabbing"
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          maxZoom={22}
+          maxNativeZoom={19}
           // A premium, clean base map that pairs well with brand colors (Voyager is minimal)
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
