@@ -8,29 +8,29 @@ import { useEffect, useState } from 'react';
 
 // Required for Next.js to properly load Leaflet's default icons if we ever fallback,
 // but we'll use custom divIcons explicitly for full visual control.
-const createCustomIcon = (stop: TourStop, isHovered: boolean = false) => {
+const createCustomIcon = (stop: TourStop, index: number, isHovered: boolean = false) => {
   return L.divIcon({
     className: 'custom-marker-container',
     html: `
       <div class="flex flex-col items-center justify-start overflow-visible w-[150px] -ml-[63px]">
         <div 
-          class="tour-marker w-6 h-6 shrink-0 rounded-full border-[3px] shadow-lg transition-all duration-300 flex items-center justify-center relative
+          class="tour-marker w-7 h-7 shrink-0 rounded-full border-[3px] shadow-lg transition-all duration-300 flex items-center justify-center relative
           ${isHovered 
             ? 'scale-125 border-laurier-gold bg-laurier-purple z-[1000]' 
             : 'scale-100 border-white bg-laurier-purple'}"
           data-stop-id="${stop.id}"
         >
-          <div class="w-2 h-2 rounded-full bg-laurier-gold pointer-events-none"></div>
+          <span class="text-laurier-gold font-bold text-[12px] leading-none pointer-events-none mt-[1px]">${index + 1}</span>
         </div>
         <div class="mt-1 text-[10px] font-bold text-laurier-purple-dark bg-white/95 px-1.5 py-0.5 rounded shadow-sm backdrop-blur-md pointer-events-none whitespace-normal text-center leading-tight border border-gray-100/50 transition-all ${isHovered ? 'z-[1001] opacity-100 font-black' : 'opacity-80'}">
           ${stop.building}
         </div>
       </div>
     `,
-    iconSize: [24, 24],
-    iconAnchor: [12, 12],
-    popupAnchor: [0, -12],
-    tooltipAnchor: [0, -12]
+    iconSize: [28, 28],
+    iconAnchor: [14, 14],
+    popupAnchor: [0, -14],
+    tooltipAnchor: [0, -14]
   });
 };
 
@@ -189,11 +189,11 @@ export default function CampusMap({ onStopSelect, hoveredStopId }: CampusMapProp
           />
         ))}
 
-        {stopsLayout.map((stop) => (
+        {stopsLayout.map((stop, index) => (
           <Marker 
             key={stop.id} 
             position={stop.coordinates} 
-            icon={createCustomIcon(stop, hoveredStopId === stop.id)}
+            icon={createCustomIcon(stop, index, hoveredStopId === stop.id)}
             draggable={isEditMode}
             eventHandlers={{
               click: () => !isEditMode && onStopSelect(stop),
