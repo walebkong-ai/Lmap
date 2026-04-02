@@ -14,7 +14,7 @@ export const tourStops: TourStop[] = [
     name: "Welcome Centre",
     location: "Main Entrance",
     building: "Welcome Centre",
-    coordinates: [43.47366, -80.53057],
+    coordinates: [43.47362, -80.53059],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -22,7 +22,7 @@ export const tourStops: TourStop[] = [
     name: "Arts Atrium",
     location: "Arts Building",
     building: "Dr. Alvin Woods Building (DAWB) / Arts",
-    coordinates: [43.47336, -80.53028],
+    coordinates: [43.47338, -80.53028],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -30,7 +30,7 @@ export const tourStops: TourStop[] = [
     name: "Library",
     location: "Outside",
     building: "Laurier Library",
-    coordinates: [43.47298, -80.52972],
+    coordinates: [43.47301, -80.52965],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -46,7 +46,7 @@ export const tourStops: TourStop[] = [
     name: "Fred Nichols Campus Centre",
     location: "Outside of Wilf's",
     building: "Fred Nichols Campus Centre",
-    coordinates: [43.47362, -80.52876],
+    coordinates: [43.47363, -80.52871],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -54,7 +54,7 @@ export const tourStops: TourStop[] = [
     name: "Food Court",
     location: "Dining Area",
     building: "Fred Nichols Campus Centre",
-    coordinates: [43.47341, -80.52861],
+    coordinates: [43.47344, -80.52862],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -62,7 +62,7 @@ export const tourStops: TourStop[] = [
     name: "Residence",
     location: "Pathway",
     building: "Residence",
-    coordinates: [43.47312, -80.52780],
+    coordinates: [43.47308, -80.52777],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -70,7 +70,7 @@ export const tourStops: TourStop[] = [
     name: "Bricker Academic",
     location: "In Lecture Hall",
     building: "Bricker Academic Building",
-    coordinates: [43.47263, -80.52664],
+    coordinates: [43.47264, -80.52657],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -78,7 +78,7 @@ export const tourStops: TourStop[] = [
     name: "Science Atrium",
     location: "Science Building",
     building: "Science Building",
-    coordinates: [43.47322, -80.52552],
+    coordinates: [43.47324, -80.52554],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -86,7 +86,7 @@ export const tourStops: TourStop[] = [
     name: "Co-op & Career Centre",
     location: "Across from Science Building",
     building: "Co-op & Career Centre",
-    coordinates: [43.47367, -80.52508],
+    coordinates: [43.47369, -80.52506],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -94,7 +94,7 @@ export const tourStops: TourStop[] = [
     name: "Athletic Complex",
     location: "Gym & Recreation",
     building: "Athletic Complex",
-    coordinates: [43.47523, -80.52553],
+    coordinates: [43.47527, -80.52556],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -102,7 +102,7 @@ export const tourStops: TourStop[] = [
     name: "Theatre Auditorium",
     location: "Arts & Theatre",
     building: "John Aird Centre",
-    coordinates: [43.47447, -80.52795],
+    coordinates: [43.47445, -80.52796],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -118,7 +118,7 @@ export const tourStops: TourStop[] = [
     name: "Wellness Centre",
     location: "Student Health",
     building: "Student Wellness Centre",
-    coordinates: [43.47394, -80.52865],
+    coordinates: [43.47396, -80.52869],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -126,7 +126,7 @@ export const tourStops: TourStop[] = [
     name: "Lazaridis Atrium",
     location: "Lazaridis Hall",
     building: "Lazaridis Hall",
-    coordinates: [43.47510, -80.52945],
+    coordinates: [43.47499, -80.52942],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -142,7 +142,7 @@ export const tourStops: TourStop[] = [
     name: "Stay Golden Mural",
     location: "Outside Welcome Centre",
     building: "Welcome Centre",
-    coordinates: [43.47368, -80.53041],
+    coordinates: [43.47371, -80.53037],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   }
 ];
