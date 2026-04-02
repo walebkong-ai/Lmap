@@ -3,6 +3,7 @@
 import { MapContainer, TileLayer, Marker, Tooltip, useMap, useMapEvents, Polyline, CircleMarker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { tourStops, TourStop } from '@/data/tourStops';
+import { tourRoute } from '@/data/tourRoute';
 import L from 'leaflet';
 import { useEffect, useState } from 'react';
 
@@ -169,6 +170,15 @@ export default function CampusMap({ onStopSelect, hoveredStopId }: CampusMapProp
         />
         
         <MapController hoveredStopId={hoveredStopId} />
+
+        {/* The permanent campus tour path */}
+        <Polyline 
+          positions={tourRoute} 
+          color="#F5BE41" // laurier-gold
+          weight={4} 
+          dashArray="10, 10" 
+        />
+
         <RouteBuilderController 
           isRouteMode={isRouteMode} 
           onAddPoint={(pt) => setRoutePoints(prev => [...prev, pt])} 

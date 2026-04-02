@@ -38,7 +38,7 @@ export const tourStops: TourStop[] = [
     name: "Concourse",
     location: "Central Hub",
     building: "Fred Nichols Campus Centre",
-    coordinates: [43.47352, -80.52921],
+    coordinates: [43.47356, -80.52918],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
   {
@@ -142,7 +142,7 @@ export const tourStops: TourStop[] = [
     name: "Stay Golden Mural",
     location: "Outside Welcome Centre",
     building: "Welcome Centre",
-    coordinates: [43.47379, -80.53031],
+    coordinates: [43.47368, -80.53041],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   }
 ];
