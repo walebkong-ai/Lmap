@@ -23,7 +23,7 @@ const createCustomIcon = (stop: TourStop, index: number, isHovered: boolean = fa
           <span class="text-laurier-gold font-bold text-[13px] leading-none pointer-events-none inline-flex items-center justify-center h-full w-full">${index + 1}</span>
         </div>
         <div class="mt-1 text-[10px] font-bold text-laurier-purple-dark bg-white/95 px-1.5 py-0.5 rounded shadow-sm backdrop-blur-md pointer-events-none whitespace-normal text-center leading-tight border border-gray-100/50 transition-all ${isHovered ? 'z-[1001] opacity-100 font-black' : 'opacity-80'}">
-          ${stop.building}
+          ${stop.name}
         </div>
       </div>
     `,

@@ -101,7 +101,7 @@ export const tourStops: TourStop[] = [
     id: "theatre-atrium",
     name: "Theatre Atrium",
     location: "Arts & Theatre",
-    building: "Theatre Atrium",
+    building: "John Aird Centre",
     coordinates: [43.47447, -80.52795],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
   },
