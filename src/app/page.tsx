@@ -9,15 +9,20 @@ import { Search, Map } from 'lucide-react';
 
 export default function Home() {
   const [selectedStop, setSelectedStop] = useState<TourStop | null>(null);
+  const [activeStopId, setActiveStopId] = useState<string | null>(null);
   const [hoveredStopId, setHoveredStopId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleStopSelect = (stopOrId: string | TourStop) => {
     if (typeof stopOrId === 'string') {
       const stop = tourStops.find(s => s.id === stopOrId);
-      if (stop) setSelectedStop(stop);
+      if (stop) {
+        setSelectedStop(stop);
+        setActiveStopId(stop.id);
+      }
     } else {
       setSelectedStop(stopOrId);
+      setActiveStopId(stopOrId.id);
     }
   };
 
@@ -29,7 +34,7 @@ export default function Home() {
     <main className="relative w-full h-screen overflow-hidden bg-gray-50">
       <MapWrapper 
         onStopSelect={handleStopSelect} 
-        selectedStopId={selectedStop?.id ?? null}
+        selectedStopId={activeStopId}
         hoveredStopId={hoveredStopId} 
       />
 
