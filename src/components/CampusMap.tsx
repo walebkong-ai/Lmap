@@ -3,9 +3,13 @@
 import { MapContainer, TileLayer, Marker, Tooltip, useMap, useMapEvents, Polyline, CircleMarker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { tourStops, TourStop } from '@/data/tourStops';
-import { tourRoute } from '@/data/tourRoute';
+import {
+  incomingRouteSegmentIdByStopId,
+  tourRoute,
+  tourRouteSegmentById,
+} from '@/data/tourRoute';
 import L from 'leaflet';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 // Required for Next.js to properly load Leaflet's default icons if we ever fallback,
 // but we'll use custom divIcons explicitly for full visual control.
@@ -37,22 +41,27 @@ const createCustomIcon = (stop: TourStop, index: number, isHovered: boolean = fa
 
 interface CampusMapProps {
   onStopSelect: (stop: TourStop) => void;
+  selectedStopId: string | null;
   hoveredStopId: string | null;
 }
 
 // A minimal invisible component that hooks into Leaflet's map instance to provide programmatic view adjustments
-const MapController = ({ hoveredStopId }: { hoveredStopId: string | null }) => {
+const MapController = ({
+  focusStopId,
+}: {
+  focusStopId: string | null;
+}) => {
   const map = useMap();
   
   useEffect(() => {
-    if (hoveredStopId) {
-      const stop = tourStops.find(s => s.id === hoveredStopId);
+    if (focusStopId) {
+      const stop = tourStops.find(s => s.id === focusStopId);
       if (stop) {
         // Gently pan to the hovered/selected stop
         map.panTo(stop.coordinates, { animate: true, duration: 0.5 });
       }
     }
-  }, [hoveredStopId, map]);
+  }, [focusStopId, map]);
 
   return null;
 };
@@ -75,7 +84,11 @@ const RouteBuilderController = ({
   return null;
 };
 
-export default function CampusMap({ onStopSelect, hoveredStopId }: CampusMapProps) {
+export default function CampusMap({
+  onStopSelect,
+  selectedStopId,
+  hoveredStopId,
+}: CampusMapProps) {
   // Center of Wilfrid Laurier Waterloo Campus (approx Arts Building)
   const rootPosition: [number, number] = [43.4740, -80.5280];
 
@@ -84,6 +97,18 @@ export default function CampusMap({ onStopSelect, hoveredStopId }: CampusMapProp
 
   const [isRouteMode, setIsRouteMode] = useState(false);
   const [routePoints, setRoutePoints] = useState<[number, number][]>([]);
+
+  const activeIncomingSegmentId = selectedStopId
+    ? incomingRouteSegmentIdByStopId[selectedStopId] ?? null
+    : null;
+
+  const activeIncomingSegment = useMemo(
+    () =>
+      activeIncomingSegmentId
+        ? tourRouteSegmentById[activeIncomingSegmentId] ?? null
+        : null,
+    [activeIncomingSegmentId]
+  );
 
   return (
     <div className="w-full h-screen absolute inset-0 z-0 select-none">
@@ -169,15 +194,31 @@ export default function CampusMap({ onStopSelect, hoveredStopId }: CampusMapProp
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
         
-        <MapController hoveredStopId={hoveredStopId} />
+        <MapController focusStopId={hoveredStopId ?? selectedStopId} />
 
-        {/* The permanent campus tour path */}
-        <Polyline 
-          positions={tourRoute} 
-          color="#F5BE41" // laurier-gold
-          weight={4} 
-          dashArray="10, 10" 
+        {/* Continuous base route built from segmented data */}
+        <Polyline
+          positions={tourRoute}
+          pathOptions={{
+            color: '#F5BE41',
+            weight: 5,
+            lineCap: 'round',
+            lineJoin: 'round',
+          }}
         />
+
+        {/* Only the clicked pin's incoming segment turns purple */}
+        {activeIncomingSegment && (
+          <Polyline
+            positions={activeIncomingSegment.coordinates}
+            pathOptions={{
+              color: '#330072',
+              weight: 5,
+              lineCap: 'round',
+              lineJoin: 'round',
+            }}
+          />
+        )}
 
         <RouteBuilderController 
           isRouteMode={isRouteMode} 
@@ -187,9 +228,12 @@ export default function CampusMap({ onStopSelect, hoveredStopId }: CampusMapProp
         {routePoints.length > 1 && (
           <Polyline 
             positions={routePoints} 
-            color="#F5BE41" // laurier-gold
-            weight={4} 
-            dashArray="10, 10" 
+            pathOptions={{
+              color: '#F5BE41',
+              weight: 5,
+              lineCap: 'round',
+              lineJoin: 'round',
+            }}
           />
         )}
         

@@ -5,6 +5,7 @@ import { TourStop } from '@/data/tourStops';
 
 interface MapWrapperProps {
   onStopSelect: (stop: TourStop) => void;
+  selectedStopId: string | null;
   hoveredStopId: string | null;
 }
 

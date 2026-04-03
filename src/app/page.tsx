@@ -29,6 +29,7 @@ export default function Home() {
     <main className="relative w-full h-screen overflow-hidden bg-gray-50">
       <MapWrapper 
         onStopSelect={handleStopSelect} 
+        selectedStopId={selectedStop?.id ?? null}
         hoveredStopId={hoveredStopId} 
       />
 
