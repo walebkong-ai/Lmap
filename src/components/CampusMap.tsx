@@ -102,17 +102,29 @@ export default function CampusMap({
   const [isRouteMode, setIsRouteMode] = useState(false);
   const [routePoints, setRoutePoints] = useState<[number, number][]>([]);
 
-  const activeIncomingSegmentId = selectedStopId
-    ? incomingRouteSegmentIdByStopId[selectedStopId] ?? null
-    : null;
+  const [visitedStopIds, setVisitedStopIds] = useState<string[]>([]);
 
-  const activeIncomingSegment = useMemo(
-    () =>
-      activeIncomingSegmentId
-        ? tourRouteSegmentById[activeIncomingSegmentId] ?? null
-        : null,
-    [activeIncomingSegmentId]
-  );
+  useEffect(() => {
+    if (selectedStopId) {
+      setVisitedStopIds(prev => {
+        if (prev.length >= tourStops.length) {
+          return [selectedStopId];
+        }
+        if (!prev.includes(selectedStopId)) {
+          return [...prev, selectedStopId];
+        }
+        return prev;
+      });
+    }
+  }, [selectedStopId]);
+
+  const activeIncomingSegments = useMemo(() => {
+    return visitedStopIds
+      .map(id => incomingRouteSegmentIdByStopId[id])
+      .filter(Boolean)
+      .map(segId => tourRouteSegmentById[segId as string])
+      .filter(Boolean);
+  }, [visitedStopIds]);
 
   return (
     <div className="w-full h-screen absolute inset-0 z-0 select-none">
@@ -211,10 +223,11 @@ export default function CampusMap({
           }}
         />
 
-        {/* Only the clicked pin's incoming segment turns purple */}
-        {activeIncomingSegment && (
+        {/* Visited pins' incoming segments stay purple */}
+        {activeIncomingSegments.map((segment) => (
           <Polyline
-            positions={activeIncomingSegment.coordinates}
+            key={segment.id}
+            positions={segment.coordinates}
             pathOptions={{
               color: '#330072',
               weight: 5,
@@ -222,7 +235,7 @@ export default function CampusMap({
               lineJoin: 'round',
             }}
           />
-        )}
+        ))}
 
         <RouteBuilderController 
           isRouteMode={isRouteMode} 
